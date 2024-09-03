@@ -4,7 +4,7 @@ import pino from "pino-http"
 import { env } from "./utils/env.js"
 import * as contactServices from "./services/contacts.js"
 
-const port = Number(env("PORT", 3000))
+const PORT = Number(env("PORT", 3000))
 
 export const setupServer = () => {
     const app = express()
@@ -24,7 +24,7 @@ export const setupServer = () => {
 
         res.json({
             status: 200,
-            message: "Seccessfully found contacts",
+            message: "Successfully found contacts",
             data
         })
     })
@@ -33,14 +33,14 @@ export const setupServer = () => {
         const data = await contactServices.getContactByID(id)
 
         if (!data) {
-            return res.status(400).json({
+            return res.status(404).json({
                 message: `Contact with ${id} nor found`
             })
         }
 
         res.json({
             status: 200,
-            message: `Contact with ${id} seccessfully found`,
+            message: `Contact with ${id} successfully found`,
             data
         })
     })
@@ -51,10 +51,10 @@ export const setupServer = () => {
         })
     })
 
-    app.use((req, res, error) => {
+    app.use((error, req, res, next) => {
         res.status(500).json({
             message: error.message
         })
     })
-    app.listen(port, () => console.log("Server is running on port 3000"))
+    app.listen(PORT, () => console.log("Server is running on port 3000"))
 };
