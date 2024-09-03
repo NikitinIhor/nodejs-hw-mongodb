@@ -29,12 +29,13 @@ export const setupServer = () => {
         })
     })
     app.get("/contacts/:contactId", async (req, res) => {
-        const contactId = req.params
+        const { contactId } = req.params
+
         const data = await contactServices.getContactByID(contactId)
 
         if (!data) {
             return res.status(404).json({
-                message: `Contact with ${contactId} nor found`
+                message: `Contact with id=${contactId} nor found`
             })
         }
 
@@ -51,7 +52,7 @@ export const setupServer = () => {
         })
     })
 
-    app.use((error, req, res, next) => {
+    app.use((error, req, res) => {
         res.status(500).json({
             message: error.message
         })
