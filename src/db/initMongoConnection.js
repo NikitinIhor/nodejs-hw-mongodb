@@ -7,7 +7,8 @@ export const initMongoConnection = async () => {
         const password = env("MONGODB_PASSWORD")
         const url = env("MONGODB_URL")
         const db = env("MONGODB_DB")
-        const HOST = `mongodb+srv://${user}:${password}@${url}/${db}?retryWrites=true&w=majority&appName=Cluster0`
+
+        const HOST = `mongodb+srv://${user}:${password}@${url}/${db}?retryWrites=true&w=majority&appName=Cluster0`;
         await mongoose.connect(HOST)
         console.log("Mongo connection successfully established!");
 
