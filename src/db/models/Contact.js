@@ -29,6 +29,16 @@ const contactShema = new Schema(
   { timestamps: true, versionKey: false }
 );
 
+export const sortFields = [
+  'name',
+  'phoneNumber',
+  'email',
+  'isFavourite',
+  'contactType',
+  'createdAt',
+  'updatedAt',
+];
+
 contactShema.post('save', handleSaveError);
 
 contactShema.pre('findOneAndUpdate', saveAndUpdateOptions);

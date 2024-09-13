@@ -2,15 +2,17 @@ import Joi from 'joi';
 import { contactList } from '../constants/contacts.js';
 
 export const contactAddShema = Joi.object({
-  name: Joi.string().required().messages({
+  name: Joi.string().min(2).max(20).required().messages({
     'any.required': 'The name must be',
   }),
-  phoneNumber: Joi.string().required().messages({
+  phoneNumber: Joi.string().min(2).max(20).required().messages({
     'any.required': 'The phone number must be',
   }),
-  email: Joi.string(),
+  email: Joi.string().min(2).max(20),
   isFavourite: Joi.boolean(),
   contactType: Joi.string()
+    .min(2)
+    .max(20)
     .valid(...contactList)
     .required()
     .messages({
