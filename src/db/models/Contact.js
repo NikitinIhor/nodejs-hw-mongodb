@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 import { contactList } from '../../constants/contacts.js';
 import { handleSaveError, saveAndUpdateOptions } from './hooks.js';
 
-const contactShema = new Schema(
+const contactSchema = new Schema(
   {
     name: {
       type: String,
@@ -39,8 +39,8 @@ export const sortFields = [
   'updatedAt',
 ];
 
-contactShema.post('save', handleSaveError);
+contactSchema.post('save', handleSaveError);
 
-contactShema.pre('findOneAndUpdate', saveAndUpdateOptions);
+contactSchema.pre('findOneAndUpdate', saveAndUpdateOptions);
 
-export const contactCollection = model('contact', contactShema);
+export const contactCollection = model('contact', contactSchema);
