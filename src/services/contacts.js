@@ -9,11 +9,13 @@ export const getContacts = async ({
   sortOrder = SORT_ORDER[0],
 }) => {
   const skip = (page - 1) * perPage;
+
   const contacts = await contactCollection
     .find()
     .skip(skip)
     .limit(perPage)
     .sort({ [sortBy]: sortOrder });
+
   const totalItems = await contactCollection.find().countDocuments();
 
   const paginationData = calculatePaginationData({ page, perPage, totalItems });
