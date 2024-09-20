@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -15,6 +16,7 @@ export const setupServer = () => {
   app.use(logger);
   app.use(cors());
   app.use(express.json());
+  app.use(cookieParser());
 
   app.use('/contacts', contactsRouter);
   app.use('/auth', authRouter);
@@ -22,5 +24,7 @@ export const setupServer = () => {
   app.use(notFoundHandler);
   app.use(errorHandler);
 
-  app.listen(PORT, () => console.log('Server is running on port 3000'));
+  app.listen(PORT, () =>
+    console.log('Server is running on port http://localhost:3000')
+  );
 };
