@@ -1,20 +1,20 @@
-import { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 import { handleSaveError, saveAndUpdateOptions } from './hooks.js';
 
 const sessionShema = new Schema(
   {
-    iserID: {
+    userID: {
       type: Schema.Types.ObjectId,
       ref: 'user',
       required: true,
     },
     accessToken: {
-      types: String,
+      type: String,
       required: true,
     },
     refreshToken: {
-      types: String,
+      type: String,
       required: true,
     },
     accessTokenValidUntil: {
