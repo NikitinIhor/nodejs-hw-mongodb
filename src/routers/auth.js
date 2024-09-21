@@ -19,4 +19,3 @@ authRouter.post(
 );
 
 authRouter.post('/refresh', ctrlWrapper(authControllers.refreshController));
-authRouter.post('/signout', ctrlWrapper(authControllers.signoutController));
