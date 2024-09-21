@@ -2,12 +2,12 @@ import createHttpError from 'http-errors';
 import { findSessionBtAccessToken, findUser } from '../services/auth.js';
 
 export const authenticate = async (req, res, next) => {
-  const autorization = req.headers;
-  if (!autorization) {
+  const authorization = req.headers;
+  if (!authorization) {
     return next(createHttpError(401, 'Autorization header not found'));
   }
 
-  const [bearer, token] = autorization.split('');
+  const [bearer, token] = authorization.split(' ');
   if (bearer !== 'Bearer') {
     return next(createHttpError(401, 'Autorization header nmust have Bearer'));
   }

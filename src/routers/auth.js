@@ -7,15 +7,15 @@ import { userSigninSchema, userSignupSchema } from '../validation/users.js';
 export const authRouter = Router();
 
 authRouter.post(
-  '/signup',
+  '/register',
   validateBody(userSignupSchema),
-  ctrlWrapper(authControllers.signupController)
+  ctrlWrapper(authControllers.registerController)
 );
 
 authRouter.post(
-  '/signin',
+  '/login',
   validateBody(userSigninSchema),
-  ctrlWrapper(authControllers.signinController)
+  ctrlWrapper(authControllers.loginController)
 );
 
 authRouter.post('/refresh', ctrlWrapper(authControllers.refreshController));
