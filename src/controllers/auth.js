@@ -13,19 +13,28 @@ export const registerController = async (req, res) => {
 export const loginController = async (req, res) => {
   const userSession = await authServices.login(req.body);
 
+  const refreshTokenExpires = new Date(userSession.refreshTokenValidUntil);
+
+  if (isNaN(refreshTokenExpires.getTime())) {
+    return res.status(500).json({
+      status: 500,
+      message: 'Invalid refresh token expiration date',
+    });
+  }
+
   res.cookie('refreshToken', userSession.refreshToken, {
     httpOnly: true,
-    expires: new Date(Date.now() + userSession.refreshTokenValidUntil),
+    expires: refreshTokenExpires,
   });
 
   res.cookie('sessionID', userSession._id, {
     httpOnly: true,
-    expires: new Date(Date.now() + userSession.refreshTokenValidUntil),
+    expires: refreshTokenExpires,
   });
 
   res.json({
     status: 200,
-    message: 'Seccessfuljy signin',
+    message: 'Seccessfuljy signed in',
     data: {
       accessToken: userSession.accessToken,
     },
@@ -33,25 +42,28 @@ export const loginController = async (req, res) => {
 };
 
 export const refreshController = async (req, res) => {
-  const { refreshToken, sessionId } = req.cookies;
+  const { refreshToken, sessionID } = req.cookies;
+
   const userSession = await authServices.refreshSession({
     refreshToken,
-    sessionId,
+    sessionID,
   });
+
+  const refreshTokenExpiry = new Date(userSession.refreshTokenValidUntil);
 
   res.cookie('refreshToken', userSession.refreshToken, {
     httpOnly: true,
-    expires: new Date(Date.now() + userSession.refreshTokenValidUntil),
+    expires: refreshTokenExpiry,
   });
 
   res.cookie('sessionID', userSession._id, {
     httpOnly: true,
-    expires: new Date(Date.now() + userSession.refreshTokenValidUntil),
+    expires: refreshTokenExpiry,
   });
 
   res.json({
     status: 200,
-    message: 'Seccessfuljy refreshed',
+    message: 'Seccessfully refreshed',
     data: {
       accessToken: userSession.accessToken,
     },
@@ -59,13 +71,13 @@ export const refreshController = async (req, res) => {
 };
 
 export const logoutController = async (req, res) => {
-  const { sessionId } = req.cookies;
+  const { sessionID } = req.cookies;
 
-  if (sessionId) {
-    await authServices.signout(sessionId);
+  if (sessionID) {
+    await authServices.logout(sessionID);
   }
 
-  res.clearCookie('sessionId');
+  res.clearCookie('sessionID');
   res.clearCookie('refreshToken');
 
   res.status(204).send();
