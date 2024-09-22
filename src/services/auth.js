@@ -66,37 +66,37 @@ export const login = async payload => {
   return userSession;
 };
 
-export const findSessionBtAccessToken = accessToken =>
+export const findSessionByAccessToken = accessToken =>
   SessionCollection.findOne({ accessToken });
 
-export const refreshSession = async ({ refreshToken, sessionId }) => {
-  const oldSession = await SessionCollection.findOne({
-    _id: sessionId,
+export const refreshSession = async ({ refreshToken, sessionID }) => {
+  const session = await SessionCollection.findOne({
+    _id: sessionID,
     refreshToken,
   });
 
-  if (!oldSession) {
+  if (!session) {
     throw createHttpError(401, 'session not found');
   }
 
-  if (new Date() > oldSession.refreshTokenValidUntil) {
+  if (new Date() > session.refreshTokenValidUntil) {
     throw createHttpError(401, 'session token expired');
   }
 
-  await SessionCollection.deleteOne({ _id: sessionId });
+  await SessionCollection.deleteOne({ _id: sessionID });
 
   const sessionData = createSession();
 
   const userSession = await SessionCollection.create({
-    userID: oldSession._id,
+    userID: session._id,
     ...sessionData,
   });
 
   return userSession;
 };
 
-export const logout = async sessionId => {
-  await SessionCollection.deleteOne({ _id: sessionId });
+export const logout = async sessionID => {
+  await SessionCollection.deleteOne({ _id: sessionID });
 };
 
 export const findUser = filter => userCollection.findOne(filter);

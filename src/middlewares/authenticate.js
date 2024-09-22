@@ -1,8 +1,9 @@
 import createHttpError from 'http-errors';
-import { findSessionBtAccessToken, findUser } from '../services/auth.js';
+import { findSessionByAccessToken, findUser } from '../services/auth.js';
 
 export const authenticate = async (req, res, next) => {
-  const authorization = req.headers;
+  const authorization = req.get('Authorization');
+
   if (!authorization) {
     return next(createHttpError(401, 'Autorization header not found'));
   }
@@ -12,7 +13,7 @@ export const authenticate = async (req, res, next) => {
     return next(createHttpError(401, 'Autorization header nmust have Bearer'));
   }
 
-  const session = await findSessionBtAccessToken(token);
+  const session = await findSessionByAccessToken(token);
   if (!session) {
     return next(createHttpError(401, 'Session not found'));
   }

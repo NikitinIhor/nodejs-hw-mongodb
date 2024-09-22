@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 import { handleSaveError, saveAndUpdateOptions } from './hooks.js';
 
-const sessionShema = new Schema(
+const sessionSchema = new Schema(
   {
     userID: {
       type: Schema.Types.ObjectId,
@@ -29,8 +29,8 @@ const sessionShema = new Schema(
   { timestamps: true, versionKey: false }
 );
 
-sessionShema.post('save', handleSaveError);
-sessionShema.pre('findOneAndUpdate', saveAndUpdateOptions);
-sessionShema.post('findOneAndUpdate', handleSaveError);
+sessionSchema.post('save', handleSaveError);
+sessionSchema.pre('findOneAndUpdate', saveAndUpdateOptions);
+sessionSchema.post('findOneAndUpdate', handleSaveError);
 
-export const SessionCollection = model('session', sessionShema);
+export const SessionCollection = model('session', sessionSchema);
