@@ -10,13 +10,15 @@ import { env } from './utils/env.js';
 
 const PORT = Number(env('PORT', 3000));
 
-export const setupServer = () => {
+export const startServer = () => {
   const app = express();
 
   app.use(logger);
+
   app.use(cors());
   app.use(express.json());
   app.use(cookieParser());
+  app.use(express.static('uploads'));
 
   app.use('/contacts', contactsRouter);
   app.use('/auth', authRouter);
