@@ -23,11 +23,6 @@ authRouter.post(
   ctrlWrapper(authControllers.loginController)
 );
 
-authRouter.get(
-  '/reset-password',
-  ctrlWrapper(authControllers.verifyController)
-);
-
 authRouter.post(
   '/send-reset-email',
   validateBody(requestResetEmailSchema),
@@ -35,7 +30,7 @@ authRouter.post(
 );
 
 authRouter.post(
-  '/reset-password',
+  '/reset-pwd',
   validateBody(resetPasswordSchema),
   ctrlWrapper(authControllers.resetPasswordController)
 );
