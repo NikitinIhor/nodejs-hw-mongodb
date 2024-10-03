@@ -92,8 +92,7 @@ export const upsertContactController = async (req, res) => {
   const { _id: userID } = req.user;
   const { isNew, data } = await contactServices.updateContact(
     { _id: contactId, userID },
-    req.body,
-    photo,
+    { ...req.body, photo },
     { upsert: true }
   );
 
@@ -122,8 +121,8 @@ export const patchContactController = async (req, res) => {
 
   const result = await contactServices.updateContact(
     { _id: contactId, userID },
-    photo,
-    req.body
+    { ...req.body, photo },
+    { upsert: true }
   );
 
   if (!result) {
