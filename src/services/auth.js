@@ -18,6 +18,7 @@ import { env } from '../utils/env.js';
 
 import { SessionCollection } from '../db/models/Session.js';
 import { userCollection } from '../db/models/User.js';
+import { validateCode } from '../utils/generateAuthUrl.js';
 
 export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
 
@@ -151,6 +152,38 @@ export const login = async payload => {
   const userSession = await SessionCollection.create({
     userID: user._id,
     ...sessionData,
+  });
+
+  return userSession;
+};
+
+export const loginOrSignupWithGoogle = async code => {
+  const loginTicket = await validateCode(code);
+
+  const payload = loginTicket.getPayload();
+
+  if (!payload) throw createHttpError(401);
+
+  let user = await userCollection.findOne({ email: payload.email });
+
+  if (!user) {
+    const password = randomBytes(10);
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    user = await userCollection.create({
+      name: payload.name,
+      email: payload.email,
+      password: hashPassword,
+    });
+
+    delete user._doc.password;
+  }
+
+  const newSession = createSession();
+
+  const userSession = await SessionCollection.create({
+    userID: user._id,
+    ...newSession,
   });
 
   return userSession;

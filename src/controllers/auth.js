@@ -1,4 +1,5 @@
 import * as authServices from '../services/auth.js';
+import { generateAuthUrl } from '../utils/generateAuthUrl.js';
 
 export const registerController = async (req, res) => {
   const newUser = await authServices.register(req.body);
@@ -100,4 +101,27 @@ export const logoutController = async (req, res) => {
   res.clearCookie('refreshToken');
 
   res.status(204).send();
+};
+
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+  res.json({
+    status: 200,
+    message: 'Successfully get Google OAuth url!',
+    data: {
+      url,
+    },
+  });
+};
+
+export const loginWithGoogleController = async (req, res) => {
+  const session = await authServices.loginOrSignupWithGoogle(req.body.code);
+
+  res.json({
+    status: 200,
+    message: 'Successfully logged in via Google OAuth!',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
 };
