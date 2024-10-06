@@ -1,0 +1,39 @@
+tags:
+  - 'Contacts'
+summary: Create contact
+operationId: createContact
+description: 'Create a new contact with optional photo upload.'
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        $ref: '../../components/shemas/contactAdd.yaml'
+responses:
+  '201':
+    description: 'Contact added successfully'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: 'Contact added successfully'
+            data:
+              $ref: '../../components/shemas/contact.yaml'
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

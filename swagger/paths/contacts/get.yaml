@@ -1,0 +1,86 @@
+tags:
+  - Contacts
+summary: Get list of contacts
+operationId: getAllContacts
+description:
+  'Get a list of contacts, supports pagination, sorting, and filtering.'
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    description: Page number (default is 1)
+    required: false
+    schema:
+      type: integer
+      example: 1
+  - in: query
+    name: perPage
+    description: Number of contacts per page (default is 10)
+    required: false
+    schema:
+      type: integer
+      example: 10
+  - in: query
+    name: sortBy
+    description: Field to sort by (default is `_id`)
+    required: false
+    schema:
+      type: string
+      example: '_id'
+  - in: query
+    name: sortOrder
+    description: Sort order
+    required: false
+    schema:
+      type: string
+      enum: ['asc', 'desc']
+      example: 'asc'
+responses:
+  '200':
+    description: Successfully got list of contacts
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully got contacts
+            data:
+              type: object
+              properties:
+                contacts:
+                  type: array
+                  items:
+                  $ref: '../../components/shemas/contact.yaml'
+                pagination:
+                  type: object
+                  properties:
+                    page:
+                      type: integer
+                      example: 1
+                    perPage:
+                      type: integer
+                      example: 10
+                    totalItems:
+                      type: integer
+                      example: 100
+                    totalPages:
+                      type: integer
+                      example: 10
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

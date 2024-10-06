@@ -1,0 +1,68 @@
+tags:
+  - 'Contacts'
+  - 'File Upload'
+  - 'Contact ID'
+summary: Patch contact by ID
+operationId: patchContact
+description:
+  'Update a contact partially by ID. You can update specific fields of a
+  contact, including uploading a new photo.'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    schema:
+      type: string
+    description: 'ID of the contact to be updated'
+    example: '633d45fc8f1d3b1bb01f7c38'
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: 'Updated contact name'
+            example: 'Jane Doe'
+          email:
+            type: string
+            description: 'Updated contact email'
+            example: 'jane.doe@example.com'
+          phone:
+            type: string
+            description: 'Updated contact phone number'
+            example: '+1234567890'
+          photo:
+            type: string
+            format: binary
+            description: 'Optional updated photo for the contact'
+responses:
+  '200':
+    description: 'Successfully updated contact'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Contact patched successfully'
+            data:
+              $ref: '../../../components/shemas/contact.yaml'
+  '400':
+    $ref: '../../../components/responses/400.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'

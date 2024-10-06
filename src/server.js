@@ -4,6 +4,7 @@ import express from 'express';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { logger } from './middlewares/loger.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 import { authRouter } from './routers/auth.js';
 import { contactsRouter } from './routers/contacts.js';
 import { env } from './utils/env.js';
@@ -22,6 +23,8 @@ export const startServer = () => {
 
   app.use('/contacts', contactsRouter);
   app.use('/auth', authRouter);
+
+  app.use('/api-docs', swaggerDocs());
 
   app.use(notFoundHandler);
   app.use(errorHandler);
