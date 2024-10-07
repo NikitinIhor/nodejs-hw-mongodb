@@ -21,14 +21,6 @@
     {
       "name": "Contacts",
       "description": "Endpoints for managing contacts, including creating, retrieving, updating, and deleting contact information."
-    },
-    {
-      "name": "File Upload",
-      "description": "Endpoints related to uploading and managing contact images."
-    },
-    {
-      "name": "Contact ID",
-      "description": "Endpoints for retrieving, updating, or deleting contacts by ID."
     }
   ],
   "paths": {
@@ -230,9 +222,9 @@
         "tags": [
           "Contacts"
         ],
-        "summary": "Get contact by id",
+        "summary": "Get contact by ID",
         "operationId": "getContact",
-        "description": "Get contact by id",
+        "description": "Get contact by ID",
         "security": [
           {
             "bearerAuth": []
@@ -286,8 +278,7 @@
       },
       "put": {
         "tags": [
-          "Contacts",
-          "Contact ID"
+          "Contacts"
         ],
         "summary": "Upsert contact by ID",
         "operationId": "upsertContact",
@@ -324,7 +315,7 @@
                     "type": "string",
                     "example": "John Doe"
                   },
-                  "phone": {
+                  "phoneNumber": {
                     "type": "string",
                     "example": "+1234567890"
                   },
@@ -475,9 +466,7 @@
       },
       "patch": {
         "tags": [
-          "Contacts",
-          "File Upload",
-          "Contact ID"
+          "Contacts"
         ],
         "summary": "Patch contact by ID",
         "operationId": "patchContact",
@@ -516,7 +505,7 @@
                     "description": "Updated contact email",
                     "example": "jane.doe@example.com"
                   },
-                  "phone": {
+                  "phoneNumber": {
                     "type": "string",
                     "description": "Updated contact phone number",
                     "example": "+1234567890"
@@ -573,8 +562,7 @@
       },
       "delete": {
         "tags": [
-          "Contacts",
-          "Contact ID"
+          "Contacts"
         ],
         "summary": "Delete contact by ID",
         "operationId": "deleteContact",

@@ -1,7 +1,5 @@
 tags:
   - 'Contacts'
-  - 'File Upload'
-  - 'Contact ID'
 summary: Patch contact by ID
 operationId: patchContact
 description:
@@ -32,7 +30,7 @@ requestBody:
             type: string
             description: 'Updated contact email'
             example: 'jane.doe@example.com'
-          phone:
+          phoneNumber:
             type: string
             description: 'Updated contact phone number'
             example: '+1234567890'
