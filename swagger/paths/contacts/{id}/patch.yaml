@@ -34,6 +34,17 @@ requestBody:
             type: string
             description: 'Updated contact phone number'
             example: '+1234567890'
+          isFavourite:
+            type: boolean
+            description: 'Whether the contact is marked as favorite'
+            example: false
+          contactType:
+            type: string
+            description: 'Type of contact (e.g., personal, business)'
+            enum:
+              - personal
+              - business
+            example: 'personal'
           photo:
             type: string
             format: binary
